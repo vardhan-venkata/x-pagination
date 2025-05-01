@@ -1,0 +1,33 @@
+#previousButton, #nextButton  {
+    background-color: green;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px 15px;
+    font-size: 16px;
+    transition: transform 0.1s ease-in-out;
+}
+
+/* Click effect */
+#previousButton:active, #nextButton:active {
+    transform: scale(0.9);
+}
+
+
+#page {
+    padding: 10px;
+    margin: 0 ;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+}
