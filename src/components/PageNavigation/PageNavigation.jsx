@@ -8,7 +8,7 @@ const PageNavigation = ({
   return (
     <div className="container">
       <button
-        id="previousButton"
+        id="prevBtn"
         onClick={handlePrevButton}
         disabled={currentPage === 1}
       >
@@ -16,7 +16,7 @@ const PageNavigation = ({
       </button>
       <div id="page">{currentPage}</div>
       <button
-        id="nextButton"
+        id="nxtBtn"
         onClick={handleNextButton}
         disabled={currentPage === 5}
       >

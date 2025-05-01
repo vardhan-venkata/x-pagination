@@ -6,47 +6,54 @@ import PageNavigation from "./components/PageNavigation/PageNavigation";
 
 function App() {
   const [employeeData, setEmployeeData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const handleNextpage = () => {
+    setCurrentPage((prevVal) => prevVal + 1);
+  };
 
+  const handlePrevPage = () => {
+    setCurrentPage((prevVal) => Math.max(1, prevVal - 1));
+  };
 
-const  handleNextpage =()=>{
-  setCurrentPage((prevVal)=> prevVal+1);
-  }
+  const fetchEmployeeData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`
+      );
 
-const  handlePrevPage =()=>{
-  setCurrentPage((prevVal)=> Math.max(1,prevVal-1))
-}
-
-
-
+      setEmployeeData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      alert("failed to fetch data");
+      console.log("error", error);
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const getEmployeeData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`
-        );
-
-        setEmployeeData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        alert('failed to fetch data');
-      }
-    };
-
-    getEmployeeData();
+    fetchEmployeeData();
   }, []);
 
-  return <div className="App">
-    <h1> Employee Data Table</h1>
-    <div><CustomTable employeeData={employeeData} currentPage={currentPage} /></div>
-    <PageNavigation currentPage={currentPage}
-    handlePrevButton={handlePrevPage} handleNextButton={handleNextpage}  />
-
-  </div>;
+  return (
+    <div className="App">
+      <h1> Employee Data Table</h1>
+      {isLoading ? (
+        <div>Loading....</div>
+      ) : (
+        <div>
+          <CustomTable empData={employeeData} currentPage={currentPage} />
+        </div>
+      )}
+      <PageNavigation
+        currentPage={currentPage}
+        handlePrevButton={handlePrevPage}
+        handleNextButton={handleNextpage}
+      />
+    </div>
+  );
 }
 
 export default App;
